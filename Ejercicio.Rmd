@@ -39,7 +39,7 @@ readLines(paste0("DatosAlumnos/", puntos[1]))#leo el primer fichero para probar 
 #el paste hace que sea todo un string seguido
 ```
 Cogemos los puntos para cada persona
-```{r}
+```{r warning=FALSE}
 sapply(puntos, function(x) readLines(paste0("DatosAlumnos/", x)))
 ```
 Al tener datos diferentes, de personas que no han seguido la estructura deseada, hay que hacer unos pequeños cambios para coger todas las puntuaciones:
@@ -76,7 +76,7 @@ rownames(evalua_df) <- NULL
 ```
 
 
-Al ya tener el data frame, vamos a intentar hacer un excel con estos datos
+Al ya tener el data frame, vamos a intentar hacer un excel con estos datos. 
 
 ```{r}
 library(openxlsx)
@@ -84,4 +84,42 @@ write.xlsx(evalua_df, "NotasRIntermedio.xlsx")
 #se ha creado el excel bien
 ```
 
+Pero nos falta la columna puntos con los puntos en valores de enteros no en linea de texto
+```{r}
+puntos_num <- regmatches(Puntos, regexpr("[0-9][0-9.,. ]*[0-9]", Puntos))
+puntos_num <- gsub("[., ]", "", puntos_num)
+puntos_num <- as.numeric(puntos_num)
+puntos_num
+```
+Ahora ya los hemos puesto en enteros sin puntos ni comas en valor entero y no caracteres
+
+```{r}
+evalua_df$puntos <- puntos_num
+evalua_df <- evalua_df[, c("apellidos", "puntos", "NomFile", "Puntos")]
+```
+
+Actualizamos el excel creado anteriormente
+```{r}
+write.xlsx(evalua_df, "NotasRIntermedio.xlsx")
+```
+
+
+Cargamos el fichero AlumnosTD25_26.xlsx
+
+```{r}
+library(readxl)
+alumnos <- read_excel("AlumnosTD25_26.xlsx")
+```
+
+Para unir los dos excel (AlumnosTD25_26.xlsx y NotasRIntermedio.xlsx) hay que tener un elemento en común y vamos a utilizar los apellidos
+
+```{r}
+AlumnosNotas <- left_join(alumnos, evalua_df, by = c("Apellido(s)" = "apellidos"))
+```
+
+Ya tenemos todos los datos en la tabla. Solo falta crear un excel con todos estos datos
+
+```{r}
+write.xlsx(AlumnosNotas, "AlumnosNotas.xlsx")
+```
 
