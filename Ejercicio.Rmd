@@ -50,5 +50,38 @@ Puntos <- sapply(puntos, function(x) paste(readLines(paste0("DatosAlumnos/", x))
 Ahora tenemos todos los puntos en un vector de caracteres. Aún hay casos en los que hay gente que ha añadido el "XP" al final y otros casos que solucionaremos más tarde.
 
 
+Crearemos la variable NomFile que tenga los nombres de los ficheros txt que han subido los alumnos
+```{r}
+NomFile <- basename(puntos)
+```
+
+
+Ya teniendo los nombres de los ficheros podemos crear un data frame inicial
+
+```{r}
+evalua_df <- data.frame(apellidos, Puntos, NomFile)
+evalua_df
+```
+Ahora ordenamos el dataframe por apellidos alfabéticamente por si acaso (aunque creo que ya está)
+
+```{r}
+library(dplyr)
+evalua_df <- arrange(evalua_df, apellidos)
+```
+
+
+Para que los nombres de las diferentes filas no sea tan largo, eliminamos los nombres de las filas y nos quedarán números
+```{r}
+rownames(evalua_df) <- NULL
+```
+
+
+Al ya tener el data frame, vamos a intentar hacer un excel con estos datos
+
+```{r}
+library(openxlsx)
+write.xlsx(evalua_df, "NotasRIntermedio.xlsx")
+#se ha creado el excel bien
+```
 
 
