@@ -19,11 +19,14 @@ unzip("2025-26 Tractament de les dades Gr.A-T (36423)-Tarea Intermediate R(Datac
 obtenemos la lista de puntos de cada alumno usando las expresiones regulares
 ```{r}
 puntos <- list.files("DatosAlumnos", recursive = TRUE, pattern = "puntos.*\\.txt$")
+#Aquí ha habido muchas personas que no han puesto los puntos bien: puntos(1).txt, puntos_R_intermedio.txt, etc
+
 ```
 
 hacemos lo mismo con los certificados en pdf
 ```{r}
 certificados <- list.files("DatosAlumnos", recursive = TRUE, pattern = "certifica.*\\.pdf$")
+#Aquí Beyte Gómez, Cuñat Alabau, Kemeni Miendjiem, Martínez Botella no tienen fichero de puntos, solo tienen de certificado.pdf
 
 ```
 
