@@ -44,9 +44,10 @@ sapply(puntos, function(x) readLines(paste0("DatosAlumnos/", x)))
 ```
 Al tener datos diferentes, de personas que no han seguido la estructura deseada, hay que hacer unos pequeños cambios para coger todas las puntuaciones:
 
-```{r}
-
+```{r warning=FALSE}
+Puntos <- sapply(puntos, function(x) paste(readLines(paste0("DatosAlumnos/", x)), collapse = " "))
 ```
+Ahora tenemos todos los puntos en un vector de caracteres. Aún hay casos en los que hay gente que ha añadido el "XP" al final y otros casos que solucionaremos más tarde.
 
 
 
