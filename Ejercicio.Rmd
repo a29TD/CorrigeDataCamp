@@ -1,0 +1,53 @@
+---
+title: "ejercicio"
+author: "Alejandro Adán"
+date: "2026-04-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Vamos a descomprimir el zip
+```{r}
+unzip("2025-26 Tractament de les dades Gr.A-T (36423)-Tarea Intermediate R(Datacamp)-3281647.zip", exdir = "DatosAlumnos")
+#para poder hacer esto hace falta que el proyecto esté en la misma carpeta que el zip
+```
+
+obtenemos la lista de puntos de cada alumno usando las expresiones regulares
+```{r}
+puntos <- list.files("DatosAlumnos", recursive = TRUE, pattern = "puntos.*\\.txt$")
+```
+
+hacemos lo mismo con los certificados en pdf
+```{r}
+certificados <- list.files("DatosAlumnos", recursive = TRUE, pattern = "certifica.*\\.pdf$")
+
+```
+
+para saber los apellidos de cada uno hay que separar los nombres de las diferentes carpetas que hay dentro de DatosAlumnos
+```{r}
+strsplit(puntos[1], split = ",")#para solo coger el apellido separamos por comas
+apellidos <- sapply(strsplit(puntos, split = ","), function(x) x[1])#hemos cogido los apellidos de todos los alumnos que tienen archivo puntos
+```
+
+Leemos los puntos de la primera persona para ver que funciona bien antes de probar con todos
+```{r}
+readLines(paste0("DatosAlumnos/", puntos[1]))#leo el primer fichero para probar que funciona y devuelve el valor que queremos
+#el paste hace que sea todo un string seguido
+```
+Cogemos los puntos para cada persona
+```{r}
+sapply(puntos, function(x) readLines(paste0("DatosAlumnos/", x)))
+```
+Al tener datos diferentes, de personas que no han seguido la estructura deseada, hay que hacer unos pequeños cambios para coger todas las puntuaciones:
+
+```{r}
+
+```
+
+
+
+
